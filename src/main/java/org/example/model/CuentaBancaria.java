@@ -32,6 +32,11 @@ public abstract class CuentaBancaria implements Imprimible{
     }
 
     @Override
+    public String toString() {
+        return devolverInfoString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -51,5 +56,9 @@ public abstract class CuentaBancaria implements Imprimible{
 
     public void setSaldo(double saldo) {
         this.saldo = saldo;
+    }
+
+    public String getIban() {
+        return iban;
     }
 }

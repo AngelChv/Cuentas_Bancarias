@@ -18,4 +18,11 @@ public class Persona implements Imprimible{
     public String devolverInfoString() {
         return "Nombre: " + nombre + ", Apellidos: " + apellidos + ", DNI: " + dni;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                devolverInfoString() +
+                "}";
+    }
 }
