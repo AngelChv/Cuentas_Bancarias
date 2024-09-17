@@ -28,7 +28,7 @@ public abstract class CuentaBancaria implements Imprimible{
 
     @Override
     public String devolverInfoString() {
-        return titular + "\nSaldo:" + saldo + "\nNúmero de cuenta:" + iban;
+        return titular + "\nSaldo: " + saldo + "\nNúmero de cuenta: " + iban + "\n";
     }
 
     @Override
@@ -39,7 +39,7 @@ public abstract class CuentaBancaria implements Imprimible{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof CuentaBancaria)) return false;
 
         CuentaBancaria that = (CuentaBancaria) o;
         return iban.equals(that.iban);

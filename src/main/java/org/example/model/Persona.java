@@ -21,7 +21,7 @@ public class Persona implements Imprimible{
 
     @Override
     public String toString() {
-        return "Persona{" +
+        return "\nTitular {" +
                 devolverInfoString() +
                 "}";
     }
