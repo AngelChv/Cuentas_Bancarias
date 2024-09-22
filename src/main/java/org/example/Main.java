@@ -12,8 +12,8 @@ public class Main {
         CuentaBancaria cuenta = new CuentaAhorro(persona, 100, "123", 0.02f);
         banco.abrirCuenta(cuenta);
 
-        HashSet<String> entidades = new HashSet<>();
-        entidades.add("Endesa");
+
+        String[] entidades = {"Endesa", "Hiberdrola"};
         CuentaBancaria cuenta2 = new CuentaCorrienteEmpresa(persona, 2000, "1234", entidades, 10, 1, 2);
         banco.abrirCuenta(cuenta2);
         System.out.println(banco.listadoCuentas());

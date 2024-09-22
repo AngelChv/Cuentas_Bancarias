@@ -1,7 +1,5 @@
 package org.example.model;
 
-import java.util.HashSet;
-
 /**
  * Único tipo de cuenta que permiten tener descubiertos.
  */
@@ -20,7 +18,7 @@ public class CuentaCorrienteEmpresa extends CuentaCorriente{
     private float comisionDescubierto;
 
     public CuentaCorrienteEmpresa(
-            Persona titular, double saldo, String iban, HashSet<String> entidadesAutorizadas, int maxDescubiertos,
+            Persona titular, double saldo, String iban, String[] entidadesAutorizadas, int maxDescubiertos,
             float interesDescubierto, float comisionDescubierto) {
         super(titular, saldo, iban, entidadesAutorizadas);
         this.maxDescubiertos = maxDescubiertos;
