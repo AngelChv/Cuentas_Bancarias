@@ -5,6 +5,9 @@ import org.example.model.*;
 import java.util.Scanner;
 
 public class Main {
+    /**
+     * {@link Banco}
+     */
     private static final Banco BANCO = new Banco();
     private static final Scanner SC = new Scanner(System.in);
     public static void main(String[] args) {
@@ -47,6 +50,10 @@ public class Main {
         } while (op != 0);
     }
 
+    /**
+     * Pide por teclado la información necesaria.
+     * @return {@link Persona} con la información obtenida.
+     */
     private static Persona crearPersona() {
         System.out.print("\nIntroduce el nombre del titular de la cuenta: ");
         String titular = SC.next();
@@ -59,6 +66,13 @@ public class Main {
         return new Persona(titular, apellido, dni);
     }
 
+    /**
+     * Pide por teclado la información necesaria.
+     * @return {@link CuentaBancaria} con los datos obtenidos. Pudiendo ser:
+     * <li>{@link CuentaAhorro}</li>
+     * <li>{@link CuentaCorrientePersonal}</li>
+     * <li>{@link CuentaCorrienteEmpresa}</li>
+     */
     private static CuentaBancaria crearCuenta() {
         CuentaBancaria cuenta = null;
         // Datos personales:
