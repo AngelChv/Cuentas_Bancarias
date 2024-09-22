@@ -15,6 +15,11 @@ public class Banco {
         cuentas = new HashSet<>();
     }
 
+    /**
+     * Añade la cuenta al banco.
+     * @param cuenta a añadir.
+     * @return {@code true} si no existe la cuenta.
+     */
     public boolean abrirCuenta(CuentaBancaria cuenta) {
         return cuentas.add(cuenta);
     }
@@ -24,9 +29,11 @@ public class Banco {
     }
 
     public String informacionCuenta(String iban) {
-        for (CuentaBancaria cuenta : cuentas) {
-            if (cuenta.getIban().equals(iban)) {
-                return cuenta.toString();
+        if (!cuentas.isEmpty()) {
+            for (CuentaBancaria cuenta : cuentas) {
+                if (cuenta.getIban().equals(iban)) {
+                    return cuenta.toString();
+                }
             }
         }
         return null;

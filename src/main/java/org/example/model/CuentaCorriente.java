@@ -13,4 +13,8 @@ public abstract class CuentaCorriente extends CuentaBancaria{
         super(titular, saldo, iban);
         this.entidadesAutorizadas = entidadesAutorizadas;
     }
+
+    public CuentaCorriente(Persona titular, double saldo, String iban) {
+        super(titular, saldo, iban);
+    }
 }

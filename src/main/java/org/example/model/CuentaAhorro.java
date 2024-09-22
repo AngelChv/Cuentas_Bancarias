@@ -13,4 +13,9 @@ public class CuentaAhorro extends CuentaBancaria{
         super(titular, saldo, iban);
         this.interes = interes;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Interes: " + interes + "\n";
+    }
 }

@@ -13,4 +13,14 @@ public class CuentaCorrientePersonal extends CuentaCorriente {
         super(titular, saldo, iban, entidadesAutorizadas);
         this.comisionMantenimiento = comisionMantenimiento;
     }
+
+    public CuentaCorrientePersonal(Persona titular, double saldo, String iban, double comisionMantenimiento) {
+        super(titular, saldo, iban);
+        this.comisionMantenimiento = comisionMantenimiento;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Comision Mantenimiento: " + comisionMantenimiento + "\n";
+    }
 }

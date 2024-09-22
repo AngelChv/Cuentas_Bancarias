@@ -28,13 +28,20 @@ public class Main {
             } while (op < 0 || op > 6);
 
             switch (op) {
-                case 1: // Crear cuenta.
-                    crearCuenta();
+                case 1: // Crear cuenta y añadirla al banco.
+                    if (BANCO.abrirCuenta(crearCuenta())) System.out.println("\nCuenta creada con exito.");
+                    else System.out.println("\nLa cuenta ya existe");
                     break;
-                case 2:
+                case 2: // Mostrar cuentas.
                     System.out.print("\n" + BANCO.listadoCuentas());
                     break;
-                case 0:
+                case 3: // Datos de una cuenta concreta.
+                    System.out.print("\nIntroduce el número de cuenta: ");
+                    String iban = SC.next();
+                    if (BANCO.informacionCuenta(iban) != null) System.out.println(BANCO.informacionCuenta(iban));
+                    else System.out.println("\nLa cuenta no existe");
+                    break;
+                case 0: // Salir.
                     System.out.println("\nSaliendo...");
             }
         } while (op != 0);
@@ -52,7 +59,8 @@ public class Main {
         return new Persona(titular, apellido, dni);
     }
 
-    private static void crearCuenta() {
+    private static CuentaBancaria crearCuenta() {
+        CuentaBancaria cuenta = null;
         // Datos personales:
         Persona persona = crearPersona();
 
@@ -85,20 +93,25 @@ public class Main {
 
         switch (tipo) {
             case 1: // Cuenta de ahorro.
-                BANCO.abrirCuenta(crearCuentaAhorro(persona, saldo, iban));
+                System.out.print("\nIntroduce el interés de remuneración: ");
+                while (!SC.hasNextFloat()) {
+                    System.out.println("\nIntroduce un número decimal.");
+                    SC.next();
+                }
+                float interes = SC.nextFloat();
+                cuenta = new CuentaAhorro(persona, saldo, iban, interes);
+                break;
+            case 2: // Cuenta corriente personal.
+                System.out.print("\nIntroduce la comisión de mantenimiento: ");
+                while (!SC.hasNextFloat()) {
+                    System.out.println("\nIntroduce un número decimal.");
+                    SC.next();
+                }
+                float comision = SC.nextFloat();
+                cuenta = new CuentaCorrientePersonal(persona, saldo, iban, comision);
                 break;
         }
-    }
 
-    private static CuentaAhorro crearCuentaAhorro(Persona persona, Double saldo, String iban) {
-        System.out.print("\nIntroduce el interés de remuneración: ");
-        while (!SC.hasNextFloat()) {
-            System.out.println("\nIntroduce un número decimal.");
-            SC.next();
-        }
-        float interes = SC.nextFloat();
-
-        // Crear cuenta de ahorro:
-        return new CuentaAhorro(persona, saldo, iban, interes);
+        return cuenta;
     }
 }
