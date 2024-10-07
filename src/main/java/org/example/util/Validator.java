@@ -40,6 +40,6 @@ public class Validator {
 
     // todo preguntar como quiere la validación.
     public static boolean iban(String iban) {
-        return iban.matches("^[A-Z]{2}[0-9]{10,34}$");
+        return iban.matches("^[A-Za-z]{2}[0-9]{10,34}$");
     }
 }

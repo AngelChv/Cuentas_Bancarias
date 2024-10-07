@@ -71,9 +71,8 @@ public class Main {
         double saldo = pedirSaldo();
 
         // Iban:
-        // todo validación.
-        System.out.print("\nIntroduce el número de cuenta: ");
-        String iban = SC.next();
+        String iban = pedirString("Introduce el número de cuenta: ", Validator::iban,
+                "El número de cuenta no es válido.").toUpperCase();
 
         // Pedir el tipo de cuenta:
         int tipo;
@@ -107,6 +106,38 @@ public class Main {
         return cuenta;
     }
 
+    private static float pedirFloat(String mensaje) {
+        System.out.print("\n" + mensaje);
+        while (!SC.hasNextFloat()) {
+            System.out.println("\nIntroduce un número decimal.");
+            SC.next();
+        }
+        float valor = SC.nextFloat();
+        SC.nextLine();
+        if (valor >= 0) return valor;
+        System.out.println("\nNo se puede introducir un valor menor a 0.");
+        return pedirFloat(mensaje);
+    }
+
+    /**
+     * Se encarga de pedir una cadena de caractéres por la entrada estándar y validarla en función de la condición
+     * pasada como parámetro, si se cumple se devuelve la cadena, si no es así, se vuelve a pedir hasta que se
+     * cumpla.
+     * @param mensaje Mensaje que se solicita al usuario.
+     * @param validator debe de ser una función que reciba un {@code String} y devuelva un {@code Boolean}
+     *                  como lo establece la interfáz {@link Predicate}.
+     *                  En este caso, yo uso los métodos de la clase Validator.
+     * @param error Mensaje en caso de que la cadena no cumpla con la validación.
+     * @return {@code true} si la validación es correcta.
+     */
+    private static String pedirString(String mensaje, Predicate<String> validator, String error) {
+        System.out.print("\n" + mensaje);
+        String valor = SC.nextLine();
+        if (validator.test(valor)) return valor;
+        System.out.print("\n" + error);
+        return pedirString(mensaje, validator, error);
+    }
+
     /**
      * Pide por teclado el nombre del titular.
      * @return el nombre del titular en caso de ser válido, si no lo es, lo vuelve a pedir hasta que así
@@ -137,25 +168,6 @@ public class Main {
                 "El DNI no es válido").toUpperCase();
     }
 
-    /**
-     * Se encarga de pedir una cadena de caractéres por la entrada estándar y validarla en función de la condición
-     * pasada como parámetro, si se cumple se devuelve la cadena, si no es así, se vuelve a pedir hasta que se
-     * cumpla.
-     * @param mensaje Mensaje que se solicita al usuario.
-     * @param validator debe de ser una función que reciba un {@code String} y devuelva un {@code Boolean}
-     *                  como lo establece la interfáz {@link Predicate}.
-     *                  En este caso, yo uso los métodos de la clase Validator.
-     * @param error Mensaje en caso de que la cadena no cumpla con la validación.
-     * @return {@code true} si la validación es correcta.
-     */
-    private static String pedirString(String mensaje, Predicate<String> validator, String error) {
-        System.out.print("\n" + mensaje);
-        String valor = SC.nextLine();
-        if (validator.test(valor)) return valor;
-        System.out.print("\n" + error);
-        return pedirString(mensaje, validator, error);
-    }
-
     private static double pedirSaldo() {
         System.out.print("\nIntroduce el saldo inicial: ");
         while (!SC.hasNextDouble()) {
@@ -167,19 +179,6 @@ public class Main {
         if (saldo >= 0) return saldo;
         System.out.println("\nEl saldo no puede ser menor a 0.");
         return pedirSaldo();
-    }
-
-    private static float pedirFloat(String mensaje) {
-        System.out.print("\n" + mensaje);
-        while (!SC.hasNextFloat()) {
-            System.out.println("\nIntroduce un número decimal.");
-            SC.next();
-        }
-        float valor = SC.nextFloat();
-        SC.nextLine();
-        if (valor >= 0) return valor;
-        System.out.println("\nNo se puede introducir un valor menor a 0.");
-        return pedirFloat(mensaje);
     }
 
     private static float pedirInteres() {
