@@ -24,10 +24,19 @@ public class Banco {
         return cuentas.add(cuenta);
     }
 
+    /**
+     * @return una cade de caracteres con la información de cada cuenta.
+     */
     public String listadoCuentas() {
         return cuentas.toString();
     }
 
+    /**
+     * Busca una cuenta en concreto y devuelve su información.
+     * @param iban de la cuenta a buscar.
+     * @return cadena de caracteres con la información de la cuenta que tenga dicho iban, si no se encuentra ninguna,
+     * devuelve null.
+     */
     public String informacionCuenta(String iban) {
         if (!cuentas.isEmpty()) {
             for (CuentaBancaria cuenta : cuentas) {

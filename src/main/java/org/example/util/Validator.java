@@ -9,7 +9,7 @@ public class Validator {
      * @param dni a validar.
      * @return {@code true} si está compuesto por 8 números y una letra coincidente.
      */
-    public static boolean validarDNI(String dni) {
+    public static boolean dni(String dni) {
         boolean dniCorrecto = true;
 
         // Validar que sean 8 números y una letra.
@@ -28,5 +28,13 @@ public class Validator {
         }
 
         return dniCorrecto;
+    }
+
+    /**
+     * @param nombre a comprobar.
+     * @return {@code true} si está compuesto por caractéres válidos.
+     */
+    public static boolean nombre(String nombre) {
+        return nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
     }
 }
