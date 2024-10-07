@@ -37,4 +37,9 @@ public class Validator {
     public static boolean nombre(String nombre) {
         return nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
     }
+
+    // todo preguntar como quiere la validación.
+    public static boolean iban(String iban) {
+        return iban.matches("^[A-Z]{2}[0-9]{10,34}$");
+    }
 }

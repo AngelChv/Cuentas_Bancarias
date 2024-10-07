@@ -4,6 +4,7 @@ import org.example.model.*;
 import org.example.util.Validator;
 
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class Main {
     /**
@@ -112,11 +113,8 @@ public class Main {
      * lo sea.
      */
     private static String pedirTitular() {
-        System.out.print("\nIntroduce el nombre del titular de la cuenta: ");
-        String titular = SC.nextLine();
-        if (Validator.nombre(titular)) return titular;
-        System.out.println("\nEl nombre no es válido.");
-        return pedirTitular();
+        return pedirString("Introduce el nombre del titular de la cuenta: ", Validator::nombre,
+                "El nombre no es válido");
     }
 
     /**
@@ -125,11 +123,8 @@ public class Main {
      * lo sea.
      */
     private static String pedirApellidos() {
-        System.out.print("\nIntroduce los apellidos del titular de la cuenta: ");
-        String apellidos = SC.nextLine();
-        if (Validator.nombre(apellidos)) return apellidos;
-        System.out.println("\nLos apellidos no son válidos.");
-        return pedirApellidos();
+        return pedirString("Introduce los apellidos del titular de la cuenta:", Validator::nombre,
+                "Los apellidos no son válidos.");
     }
 
     /**
@@ -138,12 +133,27 @@ public class Main {
      * lo sea.
      */
     private static String pedirDNI() {
-        System.out.print("\nIntroduce el DNI del titular de la cuenta: ");
-        String dni = SC.nextLine().toUpperCase();
-        /*if (Validator.dni(dni)) return dni;
-        System.out.println("El dní no es válido.");
-        return pedirDNI();*/
-        return dni; // provisional.
+        return pedirString("Introduce el DNI del titular de la cuenta: ", Validator::dni,
+                "El DNI no es válido").toUpperCase();
+    }
+
+    /**
+     * Se encarga de pedir una cadena de caractéres por la entrada estándar y validarla en función de la condición
+     * pasada como parámetro, si se cumple se devuelve la cadena, si no es así, se vuelve a pedir hasta que se
+     * cumpla.
+     * @param mensaje Mensaje que se solicita al usuario.
+     * @param validator debe de ser una función que reciba un {@code String} y devuelva un {@code Boolean}
+     *                  como lo establece la interfáz {@link Predicate}.
+     *                  En este caso, yo uso los métodos de la clase Validator.
+     * @param error Mensaje en caso de que la cadena no cumpla con la validación.
+     * @return {@code true} si la validación es correcta.
+     */
+    private static String pedirString(String mensaje, Predicate<String> validator, String error) {
+        System.out.print("\n" + mensaje);
+        String valor = SC.nextLine();
+        if (validator.test(valor)) return valor;
+        System.out.print("\n" + error);
+        return pedirString(mensaje, validator, error);
     }
 
     private static double pedirSaldo() {
