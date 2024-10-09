@@ -4,14 +4,13 @@ import org.example.model.*;
 import org.example.util.Validator;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
 public class Main {
-    /**
-     * {@link Banco}
-     */
     private static final Scanner SC = new Scanner(System.in);
+
     public static void main(String[] args) {
         int op;
         do {
@@ -38,9 +37,8 @@ public class Main {
                 case 3: // Datos de una cuenta concreta.
                     System.out.print("\nIntroduce el número de cuenta: ");
                     String iban = SC.next();
-                    String info = Banco.informacionCuenta(iban);
-                    if (info != null) System.out.println(info);
-                    else System.out.println("\nLa cuenta no existe");
+                    System.out.println(Objects.requireNonNullElse(Banco.informacionCuenta(iban),
+                            "\nLa cuenta no existe"));
                     break;
                 case 0: // Salir.
                     System.out.println("\nSaliendo...");
@@ -110,7 +108,7 @@ public class Main {
                                     "Los intereses por descubierto no puede ser negativo."),
 
                             // Comisión por descubierto.
-                            pedirFloat("Introduce la comisión por descubierto:",
+                            pedirFloat("Introduce la comisión por descubierto: ",
                                     (Float f) -> f >= 0,
                                     "La comisión no puede ser negativa."));
             default -> null;

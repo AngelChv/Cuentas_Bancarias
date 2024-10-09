@@ -32,4 +32,11 @@ public class CuentaCorrienteEmpresa extends CuentaCorriente{
         this.interesDescubierto = interesDescubierto;
         this.comisionDescubierto = comisionDescubierto;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Máximos descubiertos permitidos: " + maxDescubiertos +
+                "\nIntereses por descubierto: " + interesDescubierto + "\nComisión por descubierto: "
+                + comisionDescubierto + "\n";
+    }
 }

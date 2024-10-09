@@ -17,7 +17,7 @@ public class Banco {
     private Banco() {}
 
     /**
-     * Añade la cuenta al banco.
+     * Añade una cuenta al banco.
      * @param cuenta a añadir.
      * @return {@code true} si no existe la cuenta.
      */
