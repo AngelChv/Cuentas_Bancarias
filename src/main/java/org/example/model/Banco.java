@@ -19,14 +19,15 @@ public class Banco {
     /**
      * Añade una cuenta al banco.
      * @param cuenta a añadir.
-     * @return {@code true} si no existe la cuenta.
+     * @return {@code true} si no existe la cuenta y se ha añadido correctamente.
      */
     public static boolean abrirCuenta(CuentaBancaria cuenta) {
         return cuenta != null && cuentas.add(cuenta);
     }
 
     /**
-     * @return una cade de caracteres con la información de cada cuenta.
+     * Lista la información de las cuentas del banco.
+     * @return una cadena de caracteres con la información de cada cuenta.
      */
     public static String[] listadoCuentas() {
         String[] cuentasLista = new String[cuentas.size()];
@@ -47,7 +48,7 @@ public class Banco {
     public static String informacionCuenta(String iban) {
         if (!cuentas.isEmpty()) {
             for (CuentaBancaria cuenta : cuentas) {
-                if (cuenta.getIban().equals(iban.toUpperCase())) {
+                if (cuenta.getIban().equalsIgnoreCase(iban.toUpperCase())) {
                     return cuenta.toString();
                 }
             }
@@ -55,9 +56,16 @@ public class Banco {
         return null;
     }
 
+    /**
+     *  Ingresa en una cuenta determinada.
+     * @param iban de la cuenta donde se van a ingresar los fondos.
+     * @param ingreso cantidad a ingresar.
+     * @return {@code true} si el ingreso se ha realizado correctamente.<br>
+     * {@code false} si la cuenta no existe.
+     */
     public static boolean ingresoCuenta(String iban, double ingreso) {
         for (CuentaBancaria cuenta : cuentas) {
-            if (cuenta.getIban().equals(iban)) {
+            if (cuenta.getIban().equalsIgnoreCase(iban)) {
                 cuenta.setSaldo(cuenta.getSaldo() + ingreso);
                 return true;
             }
@@ -65,9 +73,16 @@ public class Banco {
         return false;
     }
 
+    /**
+     * Retira efectivo de una cuenta especificada.
+     * @param iban de la cuenta donde se van a retirar los fondos.
+     * @param retirada cantidad a retirar.
+     * @return {@code true} si la retirada se ha realizado con éxito.<br>
+     * {@code false} si la cuenta no existe.
+     */
     public static boolean retiradaCuenta(String iban, double retirada) {
         for (CuentaBancaria cuenta : cuentas) {
-            if (cuenta.getIban().equals(iban)) {
+            if (cuenta.getIban().equalsIgnoreCase(iban)) {
                 cuenta.setSaldo(cuenta.getSaldo() - retirada);
                 return true;
             }
@@ -75,9 +90,13 @@ public class Banco {
         return false;
     }
 
+    /**
+     * @param iban de la cuenta que se desea saber el saldo.
+     * @return {@code double} con el saldo.
+     */
     public static double obtenerSaldo(String iban) {
         for (CuentaBancaria cuenta : cuentas) {
-            if (cuenta.getIban().equals(iban)) {
+            if (cuenta.getIban().equalsIgnoreCase(iban)) {
                 return cuenta.getSaldo();
             }
         }

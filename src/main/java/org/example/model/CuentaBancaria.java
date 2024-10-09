@@ -2,9 +2,11 @@ package org.example.model;
 
 /**
  * Clase abstracta genérica que engloba las cualidades comunes del resto de cuentas.
- * <li>Cuenta Ahorro.</li>
- * <li>Cuenta Corriente Personal.</li>
- * <li>Cuenta corriente Empresa.</li>
+ * <ul>
+ *     <li>{@link CuentaAhorro}</li>
+ *     <li>{@link CuentaCorrientePersonal}</li>
+ *     <li>{@link CuentaCorrienteEmpresa}</li>
+ * </ul>
  */
 public abstract class CuentaBancaria implements Imprimible{
     /**
@@ -26,6 +28,9 @@ public abstract class CuentaBancaria implements Imprimible{
         this.iban = iban;
     }
 
+    /**
+     * @return {@code String} con toda la información de la cuenta.
+     */
     @Override
     public String devolverInfoString() {
         return "\nTipo de cuenta: " + getClass() + titular + "\nSaldo: " + saldo + "\nNúmero de cuenta: " + iban + "\n";
@@ -36,13 +41,17 @@ public abstract class CuentaBancaria implements Imprimible{
         return devolverInfoString();
     }
 
+    /**
+     * Las cuentas son consideradas iguales si su iban es el mismo.
+     * @param o objeto a comparar.
+     * @return {@code true} si son iguales.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof CuentaBancaria)) return false;
+        if (!(o instanceof CuentaBancaria cuenta)) return false;
 
-        CuentaBancaria that = (CuentaBancaria) o;
-        return iban.equals(that.iban);
+        return iban.equals(cuenta.iban);
     }
 
     @Override

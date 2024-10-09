@@ -31,6 +31,7 @@ public class Validator {
     }
 
     /**
+     * Comprueba que sea un nombre válido.
      * @param nombre a comprobar.
      * @return {@code true} si está compuesto por caractéres válidos.
      */
@@ -38,7 +39,12 @@ public class Validator {
         return nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
     }
 
-    // todo preguntar como quiere la validación.
+    /**
+     * Comprueba si el número de cuenta tiene dos letras iniciales y un rango entre 10 y 34 números, ya que en cada
+     * país es distinta la longitud.
+     * @param iban a comprobar.
+     * @return {@code true} si cumple los requisitos.
+     */
     public static boolean iban(String iban) {
         return iban.matches("^[A-Za-z]{2}[0-9]{10,34}$");
     }

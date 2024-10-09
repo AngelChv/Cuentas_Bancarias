@@ -8,12 +8,17 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
+/**
+ * Función principal del programa.
+ * @author Ángel Chicote Veganzones
+ */
 public class Main {
     private static final Scanner SC = new Scanner(System.in);
 
     public static void main(String[] args) {
         int op;
-        do {
+        do { // Menú
+            // * En el apartado 2, muestro más información que solo (código de cuenta, titular y saldo actual).
             System.out.print("""
             \n1. Abrir una nueva cuenta.
             2. Ver un listado de las cuentas disponibles.
@@ -25,25 +30,60 @@ public class Main {
             op = pedirInt("Elige una opción: ", (Integer i) -> i >= 0 && i <= 6,
                     "Introduce un número del 0 al 6.");
 
+            String iban;
+
             switch (op) {
                 case 1: // Crear cuenta y añadirla al banco.
                     if (Banco.abrirCuenta(crearCuenta())) System.out.println("\nCuenta creada con éxito.");
                     else System.out.println("\nNo se ha podido crear la cuenta.");
                     break;
+
                 case 2: // Mostrar cuentas.
-                    String[] cuentaBancarias = Banco.listadoCuentas();
-                    System.out.println(Arrays.toString(cuentaBancarias));
+                    System.out.println(Arrays.toString(Banco.listadoCuentas()));
                     break;
+
                 case 3: // Datos de una cuenta concreta.
                     System.out.print("\nIntroduce el número de cuenta: ");
-                    String iban = SC.next();
+                    iban = SC.next();
+
                     System.out.println(Objects.requireNonNullElse(Banco.informacionCuenta(iban),
                             "\nLa cuenta no existe"));
                     break;
+
+                case 4: // Ingresar en una cuenta.
+                    System.out.print("\nIntroduce el número de cuenta: ");
+                    iban = SC.next();
+                    float ingreso = pedirFloat("Introduce la cantidad a ingresar: ",
+                            (Float f) -> f > 0, "La cantidad debe de ser mayor que 0.");
+
+                    if (Banco.ingresoCuenta(iban, ingreso)) System.out.println("\nIngreso realizado.");
+                    else System.out.println("\nLa cuenta no existe.");
+                    break;
+
+                case 5: // Retirar efectivo de una cuenta.
+                    System.out.print("\nIntroduce el numero de cuenta: ");
+                    iban = SC.next();
+                    float cantidadARetirar = pedirFloat("Introduce la cantidad a retirar: ",
+                            (Float f) -> f > 0, "La cantidad debe ser mayor que 0.");
+
+                    if (Banco.retiradaCuenta(iban, cantidadARetirar)) System.out.println("\nRetirada realizada.");
+                    else System.out.println("\nLa cuenta no existe.");
+                    break;
+
+                case 6: // Consultar saldo de una cuenta.
+                    System.out.print("\nIntroduce el numero de cuenta: ");
+                    iban = SC.next();
+                    double saldo = Banco.obtenerSaldo(iban);
+
+                    if (saldo < 0) System.out.println("La cuenta no existe");
+                    System.out.println("Saldo: " + saldo);
+                    break;
+
                 case 0: // Salir.
                     System.out.println("\nSaliendo...");
+                    break;
             }
-        } while (op != 0);
+        } while (op != 0); // Bucle del programa.
 
         SC.close();
     }
@@ -117,6 +157,17 @@ public class Main {
         return cuenta;
     }
 
+    /**
+     * Se encarga de pedir un número decimal por la entrada estándar y validarlo en función de la condición
+     * pasada como parámetro, si se cumple se devuelve el valor, si no es así, se vuelve a pedir hasta que se
+     * cumpla.
+     * @param mensaje Mensaje que se solicita al usuario.
+     * @param validator debe de ser una función que reciba un {@code float} y devuelva un {@code Boolean}
+     *                  como lo establece la interfáz {@link Predicate}.
+     *                  En este caso, yo uso los métodos de la clase Validator.
+     * @param error Mensaje en caso de que el número no cumpla con la validación.
+     * @return {@code float} con el valor introducido por el usuario, si la validación es correcta.
+     */
     private static float pedirFloat(String mensaje, Predicate<Float> validator, String error) {
         System.out.print("\n" + mensaje);
         while (!SC.hasNextFloat()) {
@@ -125,11 +176,23 @@ public class Main {
         }
         float valor = SC.nextFloat();
         SC.nextLine(); // Limpiar buffer del teclado para eliminar el salto de línea.
+
         if (validator.test(valor)) return valor;
         System.out.println("\n" + error);
         return pedirFloat(mensaje, validator, error);
     }
 
+    /**
+     * Se encarga de pedir un número entero por la entrada estándar y validarlo en función de la condición
+     * pasada como parámetro, si se cumple se devuelve el valor, si no es así, se vuelve a pedir hasta que se
+     * cumpla.
+     * @param mensaje Mensaje que se solicita al usuario.
+     * @param validator debe de ser una función que reciba un {@code Integer} y devuelva un {@code Boolean}
+     *                  como lo establece la interfáz {@link Predicate}.
+     *                  En este caso, yo uso los métodos de la clase Validator.
+     * @param error Mensaje en caso de que el número no cumpla con la validación.
+     * @return {@code int} con el valor introducido por el usuario, si la validación es correcta.
+     */
     private static int pedirInt(String mensaje, Predicate<Integer> validator, String error) {
         System.out.print("\n" + mensaje);
         while (!SC.hasNextInt()) {
@@ -138,6 +201,7 @@ public class Main {
         }
         int valor = SC.nextInt();
         SC.nextLine(); // Limpiar buffer del teclado para eliminar el salto de línea.
+
         if (validator.test(valor)) return valor;
         System.out.println("\n" + error);
         return pedirInt(mensaje, validator, error);
@@ -157,6 +221,7 @@ public class Main {
     private static String pedirString(String mensaje, Predicate<String> validator, String error) {
         System.out.print("\n" + mensaje);
         String valor = SC.nextLine();
+
         if (validator.test(valor)) return valor;
         System.out.print("\n" + error);
         return pedirString(mensaje, validator, error);
