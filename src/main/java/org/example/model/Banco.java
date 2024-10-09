@@ -9,26 +9,33 @@ public class Banco {
     /**
      * Almacena las diferentes cuentas del banco.
      */
-    private HashSet<CuentaBancaria> cuentas;
+    private static final HashSet<CuentaBancaria> cuentas = new HashSet<>();
 
-    public Banco() {
-        cuentas = new HashSet<>();
-    }
+    /**
+     * Constructor privado para evitar la creación de instancias.
+     */
+    private Banco() {}
 
     /**
      * Añade la cuenta al banco.
      * @param cuenta a añadir.
      * @return {@code true} si no existe la cuenta.
      */
-    public boolean abrirCuenta(CuentaBancaria cuenta) {
-        return cuentas.add(cuenta);
+    public static boolean abrirCuenta(CuentaBancaria cuenta) {
+        return cuenta != null && cuentas.add(cuenta);
     }
 
     /**
      * @return una cade de caracteres con la información de cada cuenta.
      */
-    public String listadoCuentas() {
-        return cuentas.toString();
+    public static String[] listadoCuentas() {
+        String[] cuentasLista = new String[cuentas.size()];
+        int i = 0;
+        for (CuentaBancaria cuenta : cuentas) {
+            cuentasLista[i] = cuenta.toString();
+            i++;
+        }
+        return cuentasLista;
     }
 
     /**
@@ -37,10 +44,10 @@ public class Banco {
      * @return cadena de caracteres con la información de la cuenta que tenga dicho iban, si no se encuentra ninguna,
      * devuelve null.
      */
-    public String informacionCuenta(String iban) {
+    public static String informacionCuenta(String iban) {
         if (!cuentas.isEmpty()) {
             for (CuentaBancaria cuenta : cuentas) {
-                if (cuenta.getIban().equals(iban)) {
+                if (cuenta.getIban().equals(iban.toUpperCase())) {
                     return cuenta.toString();
                 }
             }
@@ -48,7 +55,7 @@ public class Banco {
         return null;
     }
 
-    public boolean ingresoCuenta(String iban, double ingreso) {
+    public static boolean ingresoCuenta(String iban, double ingreso) {
         for (CuentaBancaria cuenta : cuentas) {
             if (cuenta.getIban().equals(iban)) {
                 cuenta.setSaldo(cuenta.getSaldo() + ingreso);
@@ -58,7 +65,7 @@ public class Banco {
         return false;
     }
 
-    public boolean retiradaCuenta(String iban, double retirada) {
+    public static boolean retiradaCuenta(String iban, double retirada) {
         for (CuentaBancaria cuenta : cuentas) {
             if (cuenta.getIban().equals(iban)) {
                 cuenta.setSaldo(cuenta.getSaldo() - retirada);
@@ -68,7 +75,7 @@ public class Banco {
         return false;
     }
 
-    public double obtenerSaldo(String iban) {
+    public static double obtenerSaldo(String iban) {
         for (CuentaBancaria cuenta : cuentas) {
             if (cuenta.getIban().equals(iban)) {
                 return cuenta.getSaldo();

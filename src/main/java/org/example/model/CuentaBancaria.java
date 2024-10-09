@@ -28,7 +28,7 @@ public abstract class CuentaBancaria implements Imprimible{
 
     @Override
     public String devolverInfoString() {
-        return titular + "\nSaldo: " + saldo + "\nNúmero de cuenta: " + iban + "\n";
+        return "\nTipo de cuenta: " + getClass() + titular + "\nSaldo: " + saldo + "\nNúmero de cuenta: " + iban + "\n";
     }
 
     @Override
