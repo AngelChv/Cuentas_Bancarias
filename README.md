@@ -1,4 +1,4 @@
-# Gestión de Cuentas Bancarias :bank:
+# Gestión de Cuentas Bancarias 🏦
 
 ## Descripción General 📄
 
